@@ -53,3 +53,20 @@
   opacity: 1 ;
 }
 
+.button{
+  width: 50%;
+  margin: 4px;
+  height: 2rem;
+  
+}
+
+.buttonContainer{
+  display: flex;
+  flex-direction: column;
+}
+.row{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
