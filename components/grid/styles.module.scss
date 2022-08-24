@@ -24,19 +24,32 @@
 }
 
 .startCell{
-    background: greenyellow;
+    background: #2a9d8f;
 }
 .finishCell{
-    background: green;
+    background: #264653;
 }
 .wallCell{
-    background: gray;
+    background: gray !important;
+}
+.visitedCell{
+  animation: fadeItVisited 0.5s ease-in-out;
+  background-color: #e9c46a ;
+  opacity: 50%;
+}
+@keyframes fadeItVisited {
+  0%   {  background: none;}
+  100%  {  background-color: #e9c46a ;
+    opacity: 50%;}
 }
 @keyframes fadeIt {
-  0%   { background-color: #FFFFFF; }
-  100%  { background-color: #1d1bad; }
+  0%   { background: #e9c46a; opacity: 50%; }
+  100%  { background-color: #e76f51 ; }
 }
+
 .resultPath{
-  animation: fadeIt 1s ease-in-out;
-  background-color: #1d1bad;
+  animation: fadeIt 0.5s ease-in-out ;
+  background-color: #e76f51 ;
+  opacity: 1 ;
 }
+

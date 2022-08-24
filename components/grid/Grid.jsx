@@ -16,10 +16,8 @@ export default function Grid({
   const [finish,setFinish] = React.useState()
   const {solveWithDijkstra} = useGraph(matrix)
   const [resultPath, setResultPath] = useState([])
+  const [visitedNodes, setVisitedNodes] = useState([])
 
-  useEffect(()=>{
-    console.log(resultPath);
-  },[resultPath])
 
 
   return (
@@ -28,13 +26,29 @@ export default function Grid({
         <button disabled={clickType==="FINISH"} onClick={()=>setCLickType("FINISH")}>SET FINISH</button>
         <button disabled={clickType==="WALL"} onClick={()=>setCLickType("WALL")}>SET WALL</button>
         <button onClick={()=> {
-          const interval = 500
-          const path = solveWithDijkstra(`${start[0]}-${start[1]}`,`${finish[0]}-${finish[1]}`).path
-          path.slice(1,-1).map((el,index)=>{
-            setTimeout(function () {
-              setResultPath([...path.slice(1,-1).slice(0,index),el])
-            }, index * interval);
-          })
+          if (!start || !finish) {
+            alert('please select start node and an end node')
+          }else{
+            const interval = 500
+            const {path, processed} = solveWithDijkstra(`${start[0]}-${start[1]}`,`${finish[0]}-${finish[1]}`)
+            const resPath = () => {
+              path.slice(1,-1).map((el,index)=>{
+                setTimeout(function () {
+                  setResultPath([...path.slice(1,-1).slice(0,index),el])
+                }, index * interval);
+              })
+            }
+            processed.slice(0,-1).map((el,index)=>{
+              setTimeout(function () {
+                setVisitedNodes([...processed.slice(0,-1).slice(0,index),el])
+  
+                if (index === processed.length-3) {
+                  resPath()
+                }
+              }, index * (interval / 10));
+            })
+          }
+
         }
           }>START</button>
       <div
@@ -51,12 +65,11 @@ export default function Grid({
                 key={`${i}-${j}`}
                 className={`
                 ${styles.cell}
-                ${Jvalue === 2 && styles.visitedCell}
-                ${start && start[0] === i && start[1] === j && styles.startCell}
-                ${finish && finish[0] === i && finish[1] === j && styles.finishCell}
-                ${resultPath.includes(`${i}-${j}`) && styles.resultPath}
-                ${!isFinite(matrix[i][j]) && styles.wallCell}
-
+                ${visitedNodes.includes(`${i}-${j}`) ? styles.visitedCell : ''}
+                ${start && start[0] === i && start[1] === j ?styles.startCell:''}
+                ${finish && finish[0] === i && finish[1] === j ? styles.finishCell:''}
+                ${resultPath.includes(`${i}-${j}`) ? styles.resultPath:''}
+                ${!isFinite(matrix[i][j]) ? styles.wallCell : ''}
                 `}
                 onClick={()=>{
                     //TODO handle click if same as start / finish

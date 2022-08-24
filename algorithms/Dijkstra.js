@@ -8,7 +8,6 @@ const lowestCostNode = (costs, processed) => {
   };
 
   const dijkstra = (graph, startNodeName, endNodeName) => {
-    console.log(graph,startNodeName,endNodeName);
     let costs = {};
     costs[endNodeName] = Infinity;
     costs = Object.assign(costs, graph[startNodeName]);
@@ -36,6 +35,7 @@ const lowestCostNode = (costs, processed) => {
           } 
         }
       }
+      if(node === endNodeName) break
       processed.push(node);
       node = lowestCostNode(costs, processed);
     }
@@ -47,10 +47,11 @@ const lowestCostNode = (costs, processed) => {
       parent = parents[parent];
     }
     optimalPath.reverse();
-  
+    
     const results = {
       distance: costs[endNodeName],
       path: optimalPath,
+      processed
     };
     return results;
   };
