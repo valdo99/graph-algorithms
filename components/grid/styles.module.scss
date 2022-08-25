@@ -70,14 +70,13 @@
       transition: all .1s ease;
       box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
   }
-  :disabled {
-    background: #e5e5e5;
-    cursor:not-allowed;
-  }
-
   width: 50%;
   margin: 4px;
 
+}
+.disabled {
+  background: #e5e5e5;
+  cursor:not-allowed;
 }
 
 .buttonContainer{

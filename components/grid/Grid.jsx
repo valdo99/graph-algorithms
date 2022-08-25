@@ -24,11 +24,11 @@ export default function Grid({
     <div>
       <div className={styles.buttonContainer}>
         <div className={styles.row}>
-          <button className={styles.button} disabled={clickType==="START"} onClick={()=>setCLickType("START")}>SET START</button>
-          <button className={styles.button} disabled={clickType==="FINISH"} onClick={()=>setCLickType("FINISH")}>SET FINISH</button>
+          <button className={`${styles.button} ${clickType==="START" && styles.disabled}`} disabled={clickType==="START"} onClick={()=>setCLickType("START")}>SET START</button>
+          <button className={`${styles.button} ${clickType==="FINISH" && styles.disabled}`} onClick={()=>setCLickType("FINISH")}>SET FINISH</button>
         </div>
         <div className={styles.row}>
-          <button className={styles.button} disabled={clickType==="WALL"} onClick={()=>setCLickType("WALL")}>SET WALL</button>
+          <button className={`${styles.button} ${clickType==="WALL" && styles.disabled}`} onClick={()=>setCLickType("WALL")}>SET WALL</button>
           <button className={styles.button} onClick={()=> {
             if (!start || !finish) {
               alert('please select start node and an end node')
