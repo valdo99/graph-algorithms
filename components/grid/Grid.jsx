@@ -22,35 +22,43 @@ export default function Grid({
 
   return (
     <div>
-        <button disabled={clickType==="START"} onClick={()=>setCLickType("START")}>SET START</button>
-        <button disabled={clickType==="FINISH"} onClick={()=>setCLickType("FINISH")}>SET FINISH</button>
-        <button disabled={clickType==="WALL"} onClick={()=>setCLickType("WALL")}>SET WALL</button>
-        <button onClick={()=> {
-          if (!start || !finish) {
-            alert('please select start node and an end node')
-          }else{
-            const interval = 500
-            const {path, processed} = solveWithDijkstra(`${start[0]}-${start[1]}`,`${finish[0]}-${finish[1]}`)
-            const resPath = () => {
-              path.slice(1,-1).map((el,index)=>{
+      <div className={styles.buttonContainer}>
+        <div className={styles.row}>
+          <button className={styles.button} disabled={clickType==="START"} onClick={()=>setCLickType("START")}>SET START</button>
+          <button className={styles.button} disabled={clickType==="FINISH"} onClick={()=>setCLickType("FINISH")}>SET FINISH</button>
+        </div>
+        <div className={styles.row}>
+          <button className={styles.button} disabled={clickType==="WALL"} onClick={()=>setCLickType("WALL")}>SET WALL</button>
+          <button className={styles.button} onClick={()=> {
+            if (!start || !finish) {
+              alert('please select start node and an end node')
+            }else{
+              const interval = 500
+              const {path, processed} = solveWithDijkstra(`${start[0]}-${start[1]}`,`${finish[0]}-${finish[1]}`)
+              const resPath = () => {
+                path.slice(1,-1).map((el,index)=>{
+                  setTimeout(function () {
+                    setResultPath([...path.slice(1,-1).slice(0,index),el])
+                  }, index * interval);
+                })
+              }
+              processed.slice(0,-1).map((el,index)=>{
                 setTimeout(function () {
-                  setResultPath([...path.slice(1,-1).slice(0,index),el])
-                }, index * interval);
+                  setVisitedNodes([...processed.slice(0,-1).slice(0,index),el])
+    
+                  if (index === processed.length-3) {
+                    resPath()
+                  }
+                }, index * (interval / 10));
               })
             }
-            processed.slice(0,-1).map((el,index)=>{
-              setTimeout(function () {
-                setVisitedNodes([...processed.slice(0,-1).slice(0,index),el])
-  
-                if (index === processed.length-3) {
-                  resPath()
-                }
-              }, index * (interval / 10));
-            })
-          }
 
-        }
-          }>START</button>
+          }
+            }>START</button>
+        </div>
+      </div>
+
+
       <div
         className={styles.gridContainer}
         style={{
